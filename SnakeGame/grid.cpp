@@ -2,6 +2,10 @@
 #include "grid.h"
 using namespace std;
 
+grid::grid() {
+	this->reset();
+}
+
 void grid::reset() {
 	for (int i = 0; i < GRID_WIDTH; i++) {
 		for (int j = 0; j < GRID_HEIGHT; j++) {
@@ -9,6 +13,10 @@ void grid::reset() {
 		}
 	}
 	return;
+}
+
+gridContents grid::getContents(std::pair<int, int> coords) const {
+	return a[get<0>(coords)][get<1>(coords)];
 }
 
 void grid::new_food(){

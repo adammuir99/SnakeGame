@@ -1,23 +1,34 @@
 #ifndef GRID_H
 #define GRID_H
+#include <utility>
 
-constexpr int GRID_WIDTH = 50;
-constexpr int GRID_HEIGHT = 50;
+using namespace std;
+
+constexpr int GRID_WIDTH = 40;
+constexpr int GRID_HEIGHT = 40;
 
 enum gridContents{
 	EMPTY,
-	HEAD,
-	BODY,
-	TAIL,
+	SNAKE,
 	FOOD
+};
+
+enum class directions{
+	UP,
+	DOWN,
+	RIGHT,
+	LEFT
 };
 
 class grid{
 public:
-	int a[GRID_HEIGHT][GRID_WIDTH];
+	gridContents a[GRID_HEIGHT][GRID_WIDTH];
 	
-	void new_food();
+	// Member Functions
+	grid();	// Constructor
 	void reset();
+	gridContents getContents(std::pair<int, int> coords) const;
+	void new_food();
 };
 
 #endif // GRID_H
