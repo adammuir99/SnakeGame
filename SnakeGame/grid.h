@@ -1,6 +1,7 @@
 #ifndef GRID_H
 #define GRID_H
 #include <utility>
+#include "snake.h"
 
 using namespace std;
 
@@ -13,13 +14,6 @@ enum gridContents{
 	FOOD
 };
 
-enum class directions{
-	UP,
-	DOWN,
-	RIGHT,
-	LEFT
-};
-
 class grid{
 public:
 	gridContents a[GRID_HEIGHT][GRID_WIDTH];
@@ -29,6 +23,7 @@ public:
 	void reset();
 	gridContents getContents(std::pair<int, int> coords) const;
 	void new_food();
+	void place_snake(const snake& currSnake);
 };
 
 #endif // GRID_H

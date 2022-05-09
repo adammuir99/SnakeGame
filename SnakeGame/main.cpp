@@ -50,6 +50,37 @@ bool check_valid(grid& theGrid, snake& theSnake, directions direction) {
 	return true;
 }
 
+void make_move(grid& theGrid, snake& theSnake, directions direction) {
+	pair<int, int> head = theSnake.getHead();
+	pair<int, int> next_move;
+	switch (direction) {
+		case(directions::UP):
+			next_move = make_pair(get<0>(head) - 1, get<1>(head));
+			break;
+		case(directions::DOWN):
+			next_move = make_pair(get<0>(head) + 1, get<1>(head));
+			break;
+		case(directions::LEFT):
+			next_move = make_pair(get<0>(head), get<1>(head) - 1);
+			break;
+		case(directions::RIGHT):
+			next_move = make_pair(get<0>(head), get<1>(head) + 1);
+			break;
+	}
+	// Check if we're moving into food in which the snake will have to grow
+	if (theGrid.a[next_move.second][next_move.first] == FOOD) {
+		theSnake.add_head(next_move);
+		theGrid.place_snake(theSnake);
+		theGrid.new_food();
+	}
+	else {
+		theSnake.add_head(next_move);
+		theSnake.remove_tail();
+		theGrid.place_snake(theSnake);
+	}
+	return;
+}
+
 int main(int argc, char *argv[]) {
 
 	// Create the SDL window and renderer
@@ -62,9 +93,10 @@ int main(int argc, char *argv[]) {
 	snake theSnake;
 	
 	// Randomize the starting direction
-	directions direction = directions(rand()%4);
+	directions newDirection = directions(rand()%4);
 
-	bool isRunning = true;
+	bool isRunning = true;	// Flag controls graphics
+	bool gameActive = true;	// Flag controls game
 	// Main Application Loop
 	while (isRunning) {
 		SDL_Event event;
@@ -77,8 +109,13 @@ int main(int argc, char *argv[]) {
 		}
 
 		// (2) Handle Updates
-		if (check_valid(theGrid, theSnake, direction)) {
-
+		if (gameActive) {
+			if (check_valid(theGrid, theSnake, newDirection)) {
+				make_move(theGrid, theSnake, newDirection);
+			}
+			else {
+				gameActive = false;
+			}
 		}
 		// (3) Clear and Draw the Screen
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);	// Black

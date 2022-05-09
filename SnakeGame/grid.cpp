@@ -42,3 +42,12 @@ void grid::new_food(){
 	this->a[randomY][randomX] = FOOD;
 	return;
 }
+
+void grid::place_snake(const snake& currSnake) {
+	for (auto iter = currSnake.snakeList.begin(); iter != currSnake.snakeList.end(); ++iter) {
+		int y = iter->first;
+		int x = iter->second;
+		this->a[y][x] = SNAKE;
+	}
+
+}
