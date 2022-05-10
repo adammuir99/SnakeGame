@@ -40,6 +40,7 @@ void grid::new_food(){
 	}
 
 	this->a[randomY][randomX] = FOOD;
+	this->foodCoords = make_pair(randomY, randomX);
 	return;
 }
 
@@ -49,5 +50,9 @@ void grid::place_snake(const snake& currSnake) {
 		int x = iter->second;
 		this->a[y][x] = SNAKE;
 	}
+	return;
+}
 
+void grid::place_food() {
+	this->a[foodCoords.first][foodCoords.second] = FOOD;
 }
